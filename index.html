@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGS Premium SMM Engine - Smart Admin Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .neon-border { box-shadow: 0 0 15px rgba(244, 63, 94, 0.2); }
+        .neon-text { text-shadow: 0 0 8px rgba(244, 63, 94, 0.4); }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #f43f5e; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased">
+
+    <div id="authContainer" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl w-full max-w-md shadow-2xl space-y-6">
+            <div class="text-center">
+                <span class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500 neon-text">
+                    SGS INSTABOOST
+                </span>
+                <p id="authSubTitle" class="text-xs text-slate-400 mt-2">Live Secure Firebase Gateway Network</p>
+            </div>
+
+            <div id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="name@domain.com" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-semibold">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Password</label>
+                    <input type="password" id="loginPass" placeholder="••••••••" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-semibold">
+                </div>
+                <div class="text-right">
+                    <span onclick="toggleAuthMode('forgot')" class="text-xs text-slate-500 hover:text-rose-400 cursor-pointer transition">Forgot Password?</span>
+                </div>
+                <button onclick="handleEmailLogin()" class="w-full py-3.5 bg-gradient-to-r from-rose-600 to-amber-600 text-white font-black uppercase text-xs tracking-wider rounded-xl shadow-lg shadow-rose-950">
+                    Sign In With Email
+                </button>
+                
+                <div class="relative flex py-2 items-center">
+                    <div class="flex-grow border-t border-slate-800"></div>
+                    <span class="flex-shrink mx-4 text-slate-500 text-xs font-bold uppercase">OR</span>
+                    <div class="flex-grow border-t border-slate-800"></div>
+                </div>
+
+                <button onclick="handleGoogleLogin()" class="w-full py-3 bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs tracking-wider uppercase rounded-xl flex items-center justify-center space-x-2 transition">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-4 h-4" alt="Google Token">
+                    <span>Continue with Google</span>
+                </button>
+
+                <p class="text-xs text-center text-slate-400 mt-4">New to SGS? <span onclick="toggleAuthMode('signup')" class="text-rose-500 font-bold cursor-pointer hover:underline">Create Account</span></p>
+            </div>
+
+            <div id="signupForm" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Email Identity</label>
+                    <input type="email" id="registerEmail" placeholder="Enter registration email" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-semibold">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Create Passphrase</label>
+                    <input type="password" id="registerPass" placeholder="Minimum 6 characters" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-semibold">
+                </div>
+                <button onclick="handleEmailSignup()" class="w-full py-3.5 bg-gradient-to-r from-amber-600 to-rose-600 text-white font-black uppercase text-xs tracking-wider rounded-xl shadow-lg shadow-amber-950">
+                    Register Account Instance
+                </button>
+                <p class="text-xs text-center text-slate-400">Already verified? <span onclick="toggleAuthMode('login')" class="text-amber-500 font-bold cursor-pointer hover:underline">Log In</span></p>
+            </div>
+
+            <div id="forgotForm" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Recovery Email Target</label>
+                    <input type="email" id="forgotEmail" placeholder="Enter registered email address" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-semibold">
+                </div>
+                <button onclick="handlePasswordReset()" class="w-full py-3.5 bg-purple-600 hover:bg-purple-700 text-white font-black uppercase text-xs tracking-wider rounded-xl transition shadow-lg">
+                    Send Link Reset Token
+                </button>
+                <p class="text-xs text-center text-slate-400"><span onclick="toggleAuthMode('login')" class="text-slate-400 hover:text-white cursor-pointer underline">Back to Login Gateway</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="appContainer" class="hidden flex-col min-h-screen">
+        <header class="glass sticky top-0 z-40 border-b border-slate-800 px-4 py-3 flex justify-between items-center shadow-2xl">
+            <div class="flex items-center space-x-3">
+                <button onclick="toggleDrawer()" class="text-xl text-rose-500 p-2 hover:bg-slate-800 rounded-lg transition">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+                <span class="text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500 neon-text">
+                    SGS INSTABOOST
+                </span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <div class="bg-slate-900 border border-rose-500/30 px-4 py-2 rounded-xl flex items-center space-x-2">
+                    <i class="fa-solid fa-wallet text-rose-500"></i>
+                    <span class="text-sm font-bold tracking-wide">₹<span id="userBalance">0.00</span></span>
+                </div>
+            </div>
+        </header>
+
+        <div id="sideDrawer" class="fixed inset-y-0 left-0 w-72 bg-slate-900 border-r border-slate-800 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+            <div class="p-5 border-b border-slate-800 bg-slate-950/60 flex items-center space-x-3">
+                <img id="drawerUserLogo" src="https://api.dicebear.com/7.x/bottts/svg?seed=SGS" class="w-12 h-12 rounded-2xl bg-slate-800 p-1 border border-rose-500/30 shadow-md animate-pulse" alt="User Vector">
+                <div class="overflow-hidden flex-1">
+                    <p class="text-xs uppercase font-black text-rose-500 tracking-wider">Active Instance</p>
+                    <p id="drawerUserIdentity" class="text-xs text-slate-300 font-mono truncate">Loading Profile Token...</p>
+                </div>
+                <button onclick="toggleDrawer()" class="text-slate-500 hover:text-rose-500 text-sm"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div class="p-4 flex-1 space-y-2 overflow-y-auto">
+                <button onclick="switchTab('dashboard')" class="w-full text-left p-3 rounded-xl flex items-center space-x-3 bg-gradient-to-r from-rose-500/10 to-transparent border-l-4 border-rose-500 font-bold tab-btn" id="btn-dashboard">
+                    <i class="fa-solid fa-chart-pie text-rose-500"></i><span>New SMM Order</span>
+                </button>
+                <button onclick="switchTab('addfunds')" class="w-full text-left p-3 rounded-xl flex items-center space-x-3 hover:bg-slate-800/60 text-slate-400 font-medium tab-btn" id="btn-addfunds">
+                    <i class="fa-solid fa-circle-plus text-emerald-400"></i><span>Deposit Wallet</span>
+                </button>
+                <button onclick="switchTab('refer')" class="w-full text-left p-3 rounded-xl flex items-center space-x-3 hover:bg-slate-800/60 text-slate-400 font-medium tab-btn" id="btn-refer">
+                    <i class="fa-solid fa-gift text-amber-400"></i><span>Refer & Earn (₹5)</span>
+                </button>
+                <button onclick="showDailyBonus()" class="w-full text-left p-3 rounded-xl flex items-center space-x-3 hover:bg-slate-800/60 text-slate-400 font-medium">
+                    <i class="fa-solid fa-calendar-check text-cyan-400"></i><span>Daily Reward Box</span>
+                </button>
+                
+                <button id="drawerAdminLink" onclick="launchAdminConsole()" class="w-full text-left p-3 rounded-xl flex items-center space-x-3 hover:bg-purple-500/10 text-purple-400 font-bold hidden border border-transparent hover:border-purple-500/20">
+                    <i class="fa-solid fa-user-shield text-purple-500"></i><span>Open Admin Console</span>
+                </button>
+
+                <button onclick="handleLogout()" class="w-full text-left p-3 rounded-xl flex items-center space-x-3 bg-red-500/10 border border-red-500/20 text-red-400 font-black tracking-wide uppercase text-xs mt-12 transition hover:bg-red-500/20">
+                    <i class="fa-solid fa-power-off text-red-500"></i><span>Logout Session</span>
+                </button>
+            </div>
+            <div class="p-4 border-t border-slate-800 bg-slate-950/50 text-[10px] text-slate-500 flex justify-between">
+                <a href="#" onclick="showPolicy('privacy')" class="hover:underline">Privacy Policy</a>
+                <a href="#" onclick="showPolicy('terms')" class="hover:underline">Terms & Conditions</a>
+            </div>
+        </div>
+        <div id="drawerOverlay" onclick="toggleDrawer()" class="fixed inset-0 bg-black/60 z-40 hidden backdrop-blur-sm"></div>
+
+        <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6">
+            
+            <section id="tab-dashboard" class="space-y-6 tab-content">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="md:col-span-2 bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl space-y-4">
+                        <h2 class="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400 uppercase tracking-wider">
+                            <i class="fa-brands fa-instagram mr-2 text-rose-500"></i>Instagram Engine API
+                        </h2>
+                        
+                        <div>
+                            <label class="block text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">1. Choose category</label>
+                            <select id="categorySelect" onchange="updateServices()" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-semibold">
+                                <option value="views">🎬 Instagram Reels Views</option>
+                                <option value="likes">❤️ Instagram Premium Likes</option>
+                                <option value="followers">👥 Instagram Real Followers</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">2. Choose service package</label>
+                            <select id="serviceSelect" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-semibold text-slate-300">
+                                </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">3. Destination link</label>
+                            <input type="url" id="targetOrderLink" placeholder="https://www.instagram.com/reel/..." class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-mono">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">4. Request Quantity</label>
+                            <input type="number" id="targetOrderQty" placeholder="Min: 100 - Max: 500,000" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-bold">
+                        </div>
+
+                        <button onclick="executeSMMPipelineOrder()" class="w-full py-4 rounded-xl bg-gradient-to-r from-rose-600 to-amber-600 text-white font-black uppercase tracking-widest text-sm shadow-lg shadow-rose-600/20 active:scale-[0.98] transition-transform">
+                            Dispatch SMM Pipeline <i class="fa-solid fa-paper-plane ml-2"></i>
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-5 rounded-2xl">
+                            <h3 class="text-xs uppercase font-black text-slate-400 tracking-widest mb-3">System Broadcast</h3>
+                            <div class="space-y-2 text-xs text-slate-400">
+                                <p class="flex items-center text-emerald-400"><i class="fa-solid fa-circle-check mr-2 animate-pulse"></i> Provider Node: Connected</p>
+                                <p class="flex items-center font-mono text-[10px] text-slate-500 break-all"><i class="fa-solid fa-link mr-1.5"></i>https://aapkaprovider.com/api/v2</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-addfunds" class="space-y-6 tab-content hidden">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl space-y-4">
+                        <h2 class="text-lg font-black text-emerald-400 uppercase tracking-wider"><i class="fa-solid fa-shield-halved mr-2"></i>Encrypted QR Gateway</h2>
+                        <div>
+                            <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Specify Amount (₹)</label>
+                            <input type="number" id="fundAmount" placeholder="Enter INR Value" oninput="generateSecureQR()" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-emerald-500 text-sm font-bold">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase font-bold text-slate-400 mb-2">UTR/Transaction ID (12 Digits)</label>
+                            <input type="text" id="utrInput" placeholder="Ex: 340912xxxxxx" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-emerald-500 text-sm font-mono">
+                        </div>
+                        <button onclick="submitDepositToServer()" class="w-full py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 font-bold uppercase text-xs tracking-wider rounded-xl shadow-lg shadow-emerald-950/40">
+                            File Deposit Report
+                        </button>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl flex flex-col items-center justify-center text-center">
+                        <div id="qrPrompt" class="text-slate-500 text-xs px-6">Input transaction metrics to invoke payment link interface.</div>
+                        <div id="qrMatrixContainer" class="hidden p-3 bg-white rounded-xl shadow-inner">
+                            <img id="secureQrImg" src="" class="w-44 h-44" alt="Terminal Token QR">
+                        </div>
+                        <div id="qrDataSummary" class="mt-4 text-xs font-mono font-bold bg-slate-950 px-3 py-1.5 rounded-md border border-slate-800 text-emerald-400 hidden"></div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+                    <h3 class="text-xs font-black uppercase text-slate-400 tracking-wider mb-3">Live Deposit Logging Ledger</h3>
+                    <div class="overflow-x-auto text-xs">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="text-slate-500 border-b border-slate-800">
+                                    <th class="pb-3">Value</th><th class="pb-3">UTR Reference</th><th class="pb-3">Engine Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userLedgerRows">
+                                <tr><td colspan="3" class="pt-3 text-slate-600 italic">No tracking sessions deployed yet inside active context profile node.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-refer" class="tab-content hidden max-w-xl mx-auto">
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl text-center space-y-4">
+                    <div class="w-16 h-16 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto text-2xl border border-amber-500/20">
+                        <i class="fa-solid fa-gift"></i>
+                    </div>
+                    <h2 class="text-xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500 uppercase">Refer & Secure Capital</h2>
+                    <p class="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
+                        Upon onboarding fresh validated database instances, your live structural wallet balance will elevate <span class="text-amber-400 font-bold">₹5.00</span> automatically.
+                    </p>
+                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                        <span id="referLink" class="text-xs font-mono text-slate-400 select-all overflow-hidden text-left mr-2">https://sgsboost.net/ref?id=loading</span>
+                        <button onclick="alert('Network vector configuration string copied to system clipboard layer!')" class="bg-amber-600 text-white font-bold px-4 py-2 rounded-lg text-xs whitespace-nowrap">Copy Link</button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="adminCoreConsole" class="fixed inset-0 bg-slate-950 hidden flex-col z-50">
+        <header class="bg-slate-900 border-b border-purple-900/40 p-4 flex justify-between items-center shadow-md">
+            <span class="font-black text-purple-400 text-sm tracking-wider"><i class="fa-solid fa-terminal mr-2"></i>SGS ADMIN KERNEL PIPELINE</span>
+            <button onclick="terminateAdminSession()" class="bg-slate-800 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white">Close Terminal</button>
+        </header>
+        <div class="p-4 md:p-6 max-w-5xl mx-auto w-full flex-1 overflow-y-auto space-y-4">
+            <h3 class="text-xs font-black tracking-widest text-purple-300 uppercase">Live Validation Processing Stream</h3>
+            <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden text-xs">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-950 text-slate-500 uppercase font-mono border-b border-slate-800">
+                        <tr>
+                            <th class="p-4">UID Node Hash</th>
+                            <th class="p-4">Current User Balance</th>
+                            <th class="p-4">Requested Value</th>
+                            <th class="p-4">UTR Reference Payload</th>
+                            <th class="p-4 text-right">Verification Triggers</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminPipelineStream">
+                        <tr><td colspan="5" class="p-6 text-center text-slate-600 italic">No incoming deposits inside real-time database validation channels.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="bonusModal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center p-4 z-50 backdrop-blur-md">
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-cyan-500/40 p-6 rounded-3xl w-full max-w-sm text-center space-y-5 shadow-2xl">
+            <div class="text-4xl text-cyan-400 animate-bounce"><i class="fa-solid fa-box-open"></i></div>
+            <div>
+                <h3 class="text-lg font-black tracking-wide text-cyan-400 uppercase">Daily Bonus Matrix</h3>
+                <p class="text-xs text-slate-400 mt-1">Unlock randomized liquidity payloads ranging upwards to ₹1.00</p>
+            </div>
+            <div id="bonusBoxWrapper" class="p-6 bg-slate-950/80 rounded-2xl border border-slate-800 flex items-center justify-center">
+                <button onclick="executeBonusPayout()" id="claimBonusBtn" class="bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black text-xs px-6 py-3 rounded-xl tracking-wider uppercase shadow-lg shadow-cyan-950">
+                    Deploy Extraction Token
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+        import { getDatabase, ref, set, get, child, update, onValue } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBxik7a3hTld_a4_exiwj38yRsHPV9IqG0",
+            authDomain: "sgs-updates.firebaseapp.com",
+            databaseURL: "https://sgs-updates-default-rtdb.firebaseio.com",
+            projectId: "sgs-updates",
+            storageBucket: "sgs-updates.firebasestorage.app",
+            messagingSenderId: "547095411322",
+            appId: "1:547095411322:web:0e5f4139a0e567e0ecd9c3"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+        const googleProvider = new GoogleAuthProvider();
+
+        let currentAuthenticatedUserToken = null;
+        let userDataRecordCached = null;
+
+        window.toggleAuthMode = function(mode) {
+            document.getElementById('loginForm').classList.toggle('hidden', mode !== 'login');
+            document.getElementById('signupForm').classList.toggle('hidden', mode !== 'signup');
+            document.getElementById('forgotForm').classList.toggle('hidden', mode !== 'forgot');
+        };
+
+        // Firebase Auth Lifecycle Listener
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentAuthenticatedUserToken = user;
+                document.getElementById('authContainer').classList.add('hidden');
+                document.getElementById('appContainer').classList.remove('hidden');
+                document.getElementById('appContainer').classList.add('flex');
+
+                document.getElementById('drawerUserIdentity').innerText = user.email;
+                document.getElementById('drawerUserLogo').src = user.photoURL || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(user.uid)}`;
+                document.getElementById('referLink').innerText = `https://sgsboost.net/ref?id=${user.uid.substring(0,8)}`;
+
+                // Auto Check Admin Role based on UID
+                const adminCheckRef = child(ref(database), `admins/${user.uid}`);
+                get(adminCheckRef).then((snapshot) => {
+                    if (snapshot.exists() && snapshot.val() === true) {
+                        // Unhide secret dashboard button in drawer only for Admin
+                        document.getElementById('drawerAdminLink').classList.remove('hidden');
+                    } else {
+                        document.getElementById('drawerAdminLink').classList.add('hidden');
+                    }
+                });
+
+                // Sync User Database Profile
+                const userDbRef = ref(database, 'users/' + user.uid);
+                onValue(userDbRef, (snapshot) => {
+                    if (snapshot.exists()) {
+                        userDataRecordCached = snapshot.val();
+                    } else {
+                        userDataRecordCached = { walletBalance: 0.00, dailyBonusClaimed: false, transactions: [] };
+                        set(userDbRef, userDataRecordCached);
+                    }
+                    renderCachedUserStateData();
+                });
+                
+            } else {
+                currentAuthenticatedUserToken = null;
+                document.getElementById('authContainer').classList.remove('hidden');
+                document.getElementById('appContainer').classList.add('hidden');
+                document.getElementById('appContainer').classList.remove('flex');
+                document.getElementById('drawerAdminLink').classList.add('hidden');
+            }
+        });
+
+        window.handleEmailSignup = function() {
+            const email = document.getElementById('registerEmail').value.trim();
+            const pass = document.getElementById('registerPass').value.trim();
+            if(!email || !pass || pass.length < 6) { alert("Invalid inputs. Password must be 6+ chars."); return; }
+
+            createUserWithEmailAndPassword(auth, email, pass)
+                .then(() => { alert("Account created successfully!"); toggleAuthMode('login'); })
+                .catch(err => alert("Signup Error: " + err.message));
+        };
+
+        window.handleEmailLogin = function() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+            if(!email || !pass) { alert("Missing email or password fields."); return; }
+
+            signInWithEmailAndPassword(auth, email, pass).catch(err => alert("Access Failure: " + err.message));
+        };
+
+        window.handleGoogleLogin = function() {
+            signInWithPopup(auth, googleProvider).catch(err => alert("Google Auth Mismatch: " + err.message));
+        };
+
+        window.handlePasswordReset = function() {
+            const email = document.getElementById('forgotEmail').value.trim();
+            if(!email) { alert("Specify email destination."); return; }
+            sendPasswordResetEmail(auth, email)
+                .then(() => { alert("Reset link dispatched to email!"); toggleAuthMode('login'); })
+                .catch(err => alert("Reset Error: " + err.message));
+        };
+
+        window.handleLogout = function() {
+            signOut(auth).then(() => { if(!document.getElementById('sideDrawer').classList.contains('-translate-x-full')) toggleDrawer(); });
+        };
+
+        function renderCachedUserStateData() {
+            if(!userDataRecordCached) return;
+            document.getElementById('userBalance').innerText = parseFloat(userDataRecordCached.walletBalance).toFixed(2);
+            
+            const tbody = document.getElementById('userLedgerRows');
+            const txCollection = userDataRecordCached.transactions;
+            if(!txCollection || Object.keys(txCollection).length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="pt-3 text-slate-600 italic">No tracking sessions deployed yet.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            Object.keys(txCollection).forEach(key => {
+                const t = txCollection[key];
+                let currentBadge = `<span class="bg-amber-500/10 text-amber-500 border border-amber-500/20 px-2 py-0.5 rounded text-[10px] font-bold">${t.internalState}</span>`;
+                if(t.internalState === 'Verified') currentBadge = `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded text-[10px] font-bold">${t.internalState}</span>`;
+                if(t.internalState === 'Cancelled') currentBadge = `<span class="bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded text-[10px] font-bold">${t.internalState}</span>`;
+                
+                tbody.innerHTML += `
+                    <tr class="border-b border-slate-900/60">
+                        <td class="py-3 font-bold text-slate-200">₹${parseFloat(t.value).toFixed(2)}</td>
+                        <td class="py-3 font-mono text-slate-400">${t.utr}</td>
+                        <td class="py-3">${currentBadge}</td>
+                    </tr>`;
+            });
+        }
+
+        window.executeBonusPayout = function() {
+            if(!currentAuthenticatedUserToken || !userDataRecordCached || userDataRecordCached.dailyBonusClaimed) return;
+
+            const computedRandomValue = (Math.random() * (1.00 - 0.10) + 0.10).toFixed(2);
+            const parsedBonusFloat = parseFloat(computedRandomValue);
+            const updatedBalance = parseFloat(userDataRecordCached.walletBalance) + parsedBonusFloat;
+            
+            update(ref(database, 'users/' + currentAuthenticatedUserToken.uid), {
+                walletBalance: updatedBalance,
+                dailyBonusClaimed: true
+            }).then(() => {
+                document.getElementById('bonusBoxWrapper').innerHTML = `
+                    <div class="space-y-2">
+                        <p class="text-xs text-slate-400 uppercase font-bold tracking-widest">Extraction Vector Successful</p>
+                        <div class="text-3xl font-black text-cyan-400 tracking-wide">+ ₹${computedRandomValue}</div>
+                        <button onclick="document.getElementById('bonusModal').classList.add('hidden')" class="mt-2 bg-slate-900 text-slate-300 text-[10px] px-4 py-2 border border-slate-800 rounded-lg uppercase font-bold tracking-widest">Close</button>
+                    </div>`;
+            });
+        };
+
+        window.submitDepositToServer = function() {
+            const value = parseFloat(document.getElementById('fundAmount').value);
+            const utrString = document.getElementById('utrInput').value.trim();
+
+            if (!value || value <= 0 || !utrString || utrString.length < 6) {
+                alert("Validation error. Check input formats.");
+                return;
+            }
+
+            const uniqueTxHashKey = 'tx_' + Date.now();
+            const activeObjectPayload = { 
+                structId: uniqueTxHashKey, 
+                uid: currentAuthenticatedUserToken.uid, 
+                value: value, 
+                utr: utrString, 
+                internalState: 'Processing' 
+            };
+
+            set(ref(database, `users/${currentAuthenticatedUserToken.uid}/transactions/${uniqueTxHashKey}`), activeObjectPayload);
+            set(ref(database, `global_deposits/${uniqueTxHashKey}`), activeObjectPayload).then(() => {
+                document.getElementById('fundAmount').value = '';
+                document.getElementById('utrInput').value = '';
+                generateSecureQR();
+                alert("Deposit request submitted successfully!");
+            });
+        };
+
+        // Trigger Hidden Admin Dashboard Panel View
+        window.launchAdminConsole = function() {
+            if(!document.getElementById('sideDrawer').classList.contains('-translate-x-full')) toggleDrawer();
+            document.getElementById('adminCoreConsole').classList.remove('hidden');
+            document.getElementById('adminCoreConsole').classList.add('flex');
+            synchronizeAdminConsolePipeline();
+        };
+
+        window.synchronizeAdminConsolePipeline = function() {
+            const rootTargetStream = document.getElementById('adminPipelineStream');
+            const globalDepositsRef = ref(database, 'global_deposits');
+
+            onValue(globalDepositsRef, (snapshot) => {
+                if(!snapshot.exists()) {
+                    rootTargetStream.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-600 italic">No incoming deposits inside pipeline channels.</td></tr>`;
+                    return;
+                }
+                
+                rootTargetStream.innerHTML = '';
+                const collection = snapshot.val();
+                let entriesActiveCount = 0;
+
+                Object.keys(collection).forEach(key => {
+                    const t = collection[key];
+                    if(t.internalState === 'Processing') {
+                        entriesActiveCount++;
+                        
+                        // Fetch target user's current live balance dynamically before admin takes action
+                        const userBalRef = ref(database, `users/${t.uid}/walletBalance`);
+                        get(userBalRef).then((balanceSnap) => {
+                            const currentLiveBal = balanceSnap.exists() ? parseFloat(balanceSnap.val()).toFixed(2) : "0.00";
+                            const rowId = `row_${t.structId}`;
+                            
+                            // Prevent duplicating rows on dynamic sync re-render loops
+                            if(!document.getElementById(rowId)) {
+                                rootTargetStream.innerHTML += `
+                                    <tr id="${rowId}" class="border-b border-slate-900">
+                                        <td class="p-4 text-slate-500 font-mono text-[10px] truncate max-w-[100px]">${t.uid}</td>
+                                        <td class="p-4 font-bold text-amber-400">₹${currentLiveBal}</td>
+                                        <td class="p-4 font-black text-emerald-400 tracking-wide">₹${parseFloat(t.value).toFixed(2)}</td>
+                                        <td class="p-4 font-mono text-slate-300">${t.utr}</td>
+                                        <td class="p-4 text-right space-x-2 flex justify-end">
+                                            <button onclick="commitStateVerification('${t.uid}', '${t.structId}', ${t.value}, 'approve')" class="bg-emerald-600 hover:bg-emerald-500 font-bold px-3 py-1.5 rounded-lg uppercase tracking-widest text-[10px]">Approve</button>
+                                            <button onclick="commitStateVerification('${t.uid}', '${t.structId}', ${t.value}, 'cancel')" class="bg-red-600 hover:bg-red-500 font-bold px-3 py-1.5 rounded-lg uppercase tracking-widest text-[10px]">Cancel</button>
+                                        </td>
+                                    </tr>`;
+                            }
+                        });
+                    }
+                });
+
+                setTimeout(() => {
+                    if(rootTargetStream.children.length === 0 || entriesActiveCount === 0) {
+                        rootTargetStream.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-600 italic">No incoming deposits inside pipeline channels.</td></tr>`;
+                    }
+                }, 500);
+            });
+        };
+
+        // Approve or Cancel Core Action Logic Stream
+        window.commitStateVerification = function(targetUid, structId, txnValue, actionType) {
+            const finalState = actionType === 'approve' ? 'Verified' : 'Cancelled';
+            
+            // Update individual user log
+            update(ref(database, `users/${targetUid}/transactions/${structId}`), { internalState: finalState });
+            // Remove from global queue
+            set(ref(database, `global_deposits/${structId}`), null);
+            
+            if(actionType === 'approve') {
+                const targetBalanceRef = ref(database, `users/${targetUid}/walletBalance`);
+                get(targetBalanceRef).then((snap) => {
+                    let currentBal = snap.exists() ? parseFloat(snap.val()) : 0;
+                    set(targetBalanceRef, currentBal + parseFloat(txnValue));
+                });
+            }
+            alert(`Transaction successfully marked as: ${finalState}`);
+        };
+
+        window.executeSMMPipelineOrder = function() {
+            const rateCost = parseFloat(document.getElementById('serviceSelect').value);
+            const qty = parseInt(document.getElementById('targetOrderQty').value);
+            const link = document.getElementById('targetOrderLink').value.trim();
+
+            if(!qty || qty <= 0 || !link) { alert("Provide comprehensive target link and quantity."); return; }
+            
+            const realTimeComputedCost = (rateCost / 1000) * qty;
+            if(userDataRecordCached.walletBalance < realTimeComputedCost) {
+                alert(`Insufficient wallet balance. Total cost: ₹${realTimeComputedCost.toFixed(2)}`);
+                return;
+            }
+
+            const updatedUserBalancePostOrder = parseFloat(userDataRecordCached.walletBalance) - realTimeComputedCost;
+            update(ref(database, 'users/' + currentAuthenticatedUserToken.uid), { walletBalance: updatedUserBalancePostOrder }).then(() => {
+                alert(`Order dispatched successfully inside AAPKAPROVIDER stream!\nTotal Deducted: ₹${realTimeComputedCost.toFixed(2)}`);
+                document.getElementById('targetOrderQty').value = '';
+                document.getElementById('targetOrderLink').value = '';
+            });
+        };
+    </script>
+
+    <script>
+        const serviceRepository = {
+            views: [
+                { name: "⚡ Instagram Ultra Instant Views [Max 10M] — ₹5 / 1K", cost: 5 },
+                { name: "🎬 Reels High Retention Views [Real Accounts] — ₹12 / 1K", cost: 12 }
+            ],
+            likes: [
+                { name: "❤️ Instant Organic Post Likes [No-Drop] — ₹15 / 1K", cost: 15 },
+                { name: "🔥 Instant HQ Likes [Lifetime Warranty] — ₹28 / 1K", cost: 28 }
+            ],
+            followers: [
+                { name: "👥 Premium Global Followers [Non-Drop Safe] — ₹80 / 1K", cost: 80 },
+                { name: "👑 Indian Targeted Real Active Followers — ₹160 / 1K", cost: 160 }
+            ]
+        };
+
+        function toggleDrawer() {
+            document.getElementById('sideDrawer').classList.toggle('-translate-x-full');
+            document.getElementById('drawerOverlay').classList.toggle('hidden');
+        }
+
+        function switchTab(targetId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(b => {
+                b.className = "w-full text-left p-3 rounded-xl flex items-center space-x-3 text-slate-400 font-medium tab-btn";
+            });
+
+            document.getElementById(`tab-${targetId}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`btn-${targetId}`);
+            if(activeBtn) {
+                activeBtn.className = "w-full text-left p-3 rounded-xl flex items-center space-x-3 bg-gradient-to-r from-rose-500/10 to-transparent border-l-4 border-rose-500 font-bold tab-btn text-white";
+            }
+            toggleDrawer();
+        }
+
+        function updateServices() {
+            const selectedCategory = document.getElementById('categorySelect').value;
+            const targetSelectBox = document.getElementById('serviceSelect');
+            const collection = serviceRepository[selectedCategory];
+
+            targetSelectBox.innerHTML = '';
+            collection.forEach(svc => {
+                targetSelectBox.innerHTML += `<option value="${svc.cost}">${svc.name}</option>`;
+            });
+        }
+
+        function generateSecureQR() {
+            const requestedAmount = document.getElementById('fundAmount').value;
+            const container = document.getElementById('qrMatrixContainer');
+            const targetImg = document.getElementById('secureQrImg');
+            const prompt = document.getElementById('qrPrompt');
+            const summary = document.getElementById('qrDataSummary');
+
+            if (requestedAmount && requestedAmount > 0) {
+                const payloadKey = "OTExNzA4MDE2OUB1cGk=";
+                const mappedVector = atob(payloadKey); 
+                const standardPayloadURI = `upi://pay?pa=${mappedVector}&pn=SGS_UPDATES&am=${requestedAmount}&cu=INR`;
+                
+                targetImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=10&data=${encodeURIComponent(standardPayloadURI)}`;
+                container.classList.remove('hidden');
+                prompt.classList.add('hidden');
+                summary.innerText = `ENDPOINT METRIC SECURED: INT-₹${requestedAmount}.00`;
+                summary.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+                prompt.classList.remove('hidden');
+                summary.classList.add('hidden');
+            }
+        }
+
+        function showDailyBonus() {
+            document.getElementById('bonusModal').classList.remove('hidden');
+        }
+
+        function terminateAdminSession() {
+            document.getElementById('adminCoreConsole').classList.add('hidden');
+            document.getElementById('adminCoreConsole').classList.remove('flex');
+        }
+    </script>
+</body>
+</html>
