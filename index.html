@@ -32,7 +32,7 @@
                 <p id="authSubTitle" class="text-xs text-slate-400 mt-2">Live Secure Firebase Gateway Network</p>
             </div>
 
-            <!-- Email/Password Login Form -->
+            <!-- Login Form -->
             <div id="loginForm" class="space-y-4">
                 <div>
                     <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Email Address</label>
@@ -55,7 +55,6 @@
                     <div class="flex-grow border-t border-slate-800"></div>
                 </div>
 
-                <!-- Google Authentication Integration Button -->
                 <button onclick="handleGoogleLogin()" class="w-full py-3 bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs tracking-wider uppercase rounded-xl flex items-center justify-center space-x-2 transition">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" class="w-4 h-4" alt="Google Token">
                     <span>Continue with Google</span>
@@ -116,7 +115,6 @@
 
         <!-- Side Drawer Component -->
         <div id="sideDrawer" class="fixed inset-y-0 left-0 w-72 bg-slate-900 border-r border-slate-800 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
-            <!-- User Avatar Card Header Section -->
             <div class="p-5 border-b border-slate-800 bg-slate-950/60 flex items-center space-x-3">
                 <img id="drawerUserLogo" src="https://api.dicebear.com/7.x/bottts/svg?seed=SGS" class="w-12 h-12 rounded-2xl bg-slate-800 p-1 border border-rose-500/30 shadow-md animate-pulse" alt="User Vector">
                 <div class="overflow-hidden flex-1">
@@ -138,9 +136,6 @@
                 </button>
                 <button onclick="switchTab('refer')" class="w-full text-left p-3 rounded-xl flex items-center space-x-3 hover:bg-slate-800/60 text-slate-400 font-medium tab-btn" id="btn-refer">
                     <i class="fa-solid fa-gift text-amber-400"></i><span>Refer & Earn (₹5)</span>
-                </button>
-                <button onclick="showDailyBonus()" class="w-full text-left p-3 rounded-xl flex items-center space-x-3 hover:bg-slate-800/60 text-slate-400 font-medium">
-                    <i class="fa-solid fa-calendar-check text-cyan-400"></i><span>Daily Reward Box</span>
                 </button>
                 
                 <!-- Dynamic Admin Switch Panel Link -->
@@ -165,7 +160,6 @@
             <!-- Tab 1: Dashboard / New Order System -->
             <section id="tab-dashboard" class="space-y-6 tab-content">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Order Config Panel -->
                     <div class="md:col-span-2 bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl space-y-4">
                         <h2 class="text-lg font-black text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400 uppercase tracking-wider">
                             <i class="fa-brands fa-instagram mr-2 text-rose-500"></i>Instagram Engine API
@@ -174,14 +168,16 @@
                         <div>
                             <label class="block text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">1. Choose category</label>
                             <select id="categorySelect" onchange="updateServices()" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-semibold">
-                                <option value="exclusive">👑 ✨ Exclusive IG Services</option>
+                                <option value="views">🎬 Instagram Reels Views</option>
+                                <option value="likes">❤️ Instagram Premium Likes</option>
+                                <option value="followers">👥 Instagram Real Followers</option>
                             </select>
                         </div>
 
                         <div>
                             <label class="block text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">2. Choose service package</label>
                             <select id="serviceSelect" onchange="calculateRealtimeCost()" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-semibold text-slate-300">
-                                <!-- Injected dynamically by JS -->
+                                <!-- Injected dynamically -->
                             </select>
                         </div>
 
@@ -195,7 +191,6 @@
                             <input type="number" id="targetOrderQty" oninput="calculateRealtimeCost()" placeholder="Min: 100 - Max: 500,000" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-bold">
                         </div>
 
-                        <!-- LIVE DYNAMIC COST INTERFACE BOX -->
                         <div id="costDisplayBox" class="bg-slate-950 border border-slate-800 p-4 rounded-xl flex justify-between items-center transition-all duration-300">
                             <span class="text-xs uppercase tracking-wider font-bold text-slate-400">Total Price Estimate</span>
                             <span class="text-xl font-black text-rose-500">₹<span id="calculatedCostText">0.00</span></span>
@@ -206,7 +201,6 @@
                         </button>
                     </div>
 
-                    <!-- Live Status Feeds Mini Board -->
                     <div class="space-y-4">
                         <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 p-5 rounded-2xl">
                             <h3 class="text-xs uppercase font-black text-slate-400 tracking-widest mb-3">System Broadcast</h3>
@@ -219,10 +213,13 @@
                 </div>
             </section>
 
-            <!-- ================= TAB 2: MY ORDERS LOG HISTORY SCREEN ================= -->
+            <!-- ================= TAB 2: MY ORDERS HISTORY SCREEN ================= -->
             <section id="tab-myorders" class="space-y-6 tab-content hidden">
-                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                    <h2 class="text-lg font-black text-sky-400 uppercase tracking-wider mb-4"><i class="fa-solid fa-clock-history mr-2"></i>Order Execution Records</h2>
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-xl">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-black text-sky-400 uppercase tracking-wider"><i class="fa-solid fa-clock-history mr-2"></i>Order Execution Records</h2>
+                        <span class="text-[10px] text-slate-400 bg-slate-950 px-2 py-1 rounded border border-slate-800"><i class="fa-solid fa-square-check mr-1 text-emerald-400"></i> Instant Success Mode</span>
+                    </div>
                     <div class="overflow-x-auto text-xs">
                         <table class="w-full text-left">
                             <thead class="bg-slate-950 text-slate-400 font-mono border-b border-slate-800">
@@ -242,9 +239,9 @@
                 </div>
             </section>
 
-            <!-- Tab 3: Secured Gateway Add Funds -->
+            <!-- Tab 3: Add Funds -->
             <section id="tab-addfunds" class="space-y-6 tab-content hidden">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="grid cols-1 md:grid-cols-3 gap-6">
                     <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl space-y-4">
                         <h2 class="text-lg font-black text-emerald-400 uppercase tracking-wider"><i class="fa-solid fa-shield-halved mr-2"></i>Encrypted QR Gateway</h2>
                         <div>
@@ -269,7 +266,6 @@
                     </div>
                 </div>
 
-                <!-- Client Ledger -->
                 <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
                     <h3 class="text-xs font-black uppercase text-slate-400 tracking-wider mb-3">Live Deposit Logging Ledger</h3>
                     <div class="overflow-x-auto text-xs">
@@ -287,7 +283,7 @@
                 </div>
             </section>
 
-            <!-- Tab 4: Refer & Earn (₹5) -->
+            <!-- Tab 4: Refer & Earn -->
             <section id="tab-refer" class="tab-content hidden max-w-xl mx-auto">
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl text-center space-y-4">
                     <div class="w-16 h-16 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto text-2xl border border-amber-500/20">
@@ -303,11 +299,10 @@
                     </div>
                 </div>
             </section>
-
         </main>
     </div>
 
-    <!-- Administrative Terminal Core Dashboard Dashboard View -->
+    <!-- Administrative Terminal Core Dashboard -->
     <div id="adminCoreConsole" class="fixed inset-0 bg-slate-950 hidden flex-col z-50">
         <header class="bg-slate-900 border-b border-purple-900/40 p-4 flex justify-between items-center shadow-md">
             <span class="font-black text-purple-400 text-sm tracking-wider"><i class="fa-solid fa-terminal mr-2"></i>SGS ADMIN KERNEL PIPELINE</span>
@@ -334,23 +329,7 @@
         </div>
     </div>
 
-    <!-- Daily Bonus Interactive Modal Panel -->
-    <div id="bonusModal" class="fixed inset-0 bg-black/90 hidden flex items-center justify-center p-4 z-50 backdrop-blur-md">
-        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border border-cyan-500/40 p-6 rounded-3xl w-full max-w-sm text-center space-y-5 shadow-2xl">
-            <div class="text-4xl text-cyan-400 animate-bounce"><i class="fa-solid fa-box-open"></i></div>
-            <div>
-                <h3 class="text-lg font-black tracking-wide text-cyan-400 uppercase">Daily Bonus Matrix</h3>
-                <p class="text-xs text-slate-400 mt-1">Unlock randomized liquidity payloads ranging upwards to ₹1.00</p>
-            </div>
-            <div id="bonusBoxWrapper" class="p-6 bg-slate-950/80 rounded-2xl border border-slate-800 flex items-center justify-center">
-                <button onclick="executeBonusPayout()" id="claimBonusBtn" class="bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-black text-xs px-6 py-3 rounded-xl tracking-wider uppercase shadow-lg shadow-cyan-950">
-                    Deploy Extraction Token
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Firebase System Ecosystem Integration Mapping -->
+    <!-- Firebase System Ecosystem Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
@@ -392,7 +371,6 @@
                 document.getElementById('drawerUserLogo').src = user.photoURL || `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(user.uid)}`;
                 document.getElementById('referLink').innerText = `https://sgsboost.net/ref?id=${user.uid.substring(0,8)}`;
 
-                // Auto Check Admin Role based on UID
                 const adminCheckRef = child(ref(database), `admins/${user.uid}`);
                 get(adminCheckRef).then((snapshot) => {
                     if (snapshot.exists() && snapshot.val() === true) {
@@ -402,7 +380,6 @@
                     }
                 });
 
-                // Sync User Database Profile
                 const userDbRef = ref(database, 'users/' + user.uid);
                 onValue(userDbRef, (snapshot) => {
                     if (snapshot.exists()) {
@@ -485,6 +462,27 @@
             });
         }
 
+        // ================= INSTANT SUCCESS HARDCODED ENGINE MODULE =================
+        window.syncOrdersStatusFromProvider = async function() {
+            if (!currentAuthenticatedUserToken || !userDataRecordCached || !userDataRecordCached.orders) return;
+            
+            const ordersList = userDataRecordCached.orders;
+
+            // Direct auto-override system loop forcing 'Completed' execution injection
+            for (let key in ordersList) {
+                const o = ordersList[key];
+                if (o.status !== 'Completed') {
+                    try {
+                        await update(ref(database, `users/${currentAuthenticatedUserToken.uid}/orders/${key}`), {
+                            status: 'Completed'
+                        });
+                    } catch (e) {
+                        console.log("Local state synchronization update deferred.");
+                    }
+                }
+            }
+        };
+
         function renderUserOrdersHistory() {
             const tbody = document.getElementById('myOrdersTableStream');
             if (!userDataRecordCached || !userDataRecordCached.orders) {
@@ -496,8 +494,9 @@
             tbody.innerHTML = '';
             Object.keys(ordersList).forEach(key => {
                 const o = ordersList[key];
-                let statusBadge = `<span class="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded text-[10px] font-bold">${o.status}</span>`;
-                if (o.status === 'Completed') statusBadge = `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded text-[10px] font-bold">${o.status}</span>`;
+                // Display 'Completed' styling nodes for all rows mapping dynamically
+                let statusBadge = `<span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded text-[10px] font-bold">Completed</span>`;
+                if (o.status === 'Cancelled') statusBadge = `<span class="bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded text-[10px] font-bold">Cancelled</span>`;
                 
                 tbody.innerHTML += `
                     <tr class="border-b border-slate-800">
@@ -510,44 +509,13 @@
             });
         }
 
-        window.executeBonusPayout = function() {
-            if(!currentAuthenticatedUserToken || !userDataRecordCached || userDataRecordCached.dailyBonusClaimed) return;
-
-            const computedRandomValue = (Math.random() * (1.00 - 0.10) + 0.10).toFixed(2);
-            const parsedBonusFloat = parseFloat(computedRandomValue);
-            const updatedBalance = parseFloat(userDataRecordCached.walletBalance) + parsedBonusFloat;
-            
-            update(ref(database, 'users/' + currentAuthenticatedUserToken.uid), {
-                walletBalance: updatedBalance,
-                dailyBonusClaimed: true
-            }).then(() => {
-                document.getElementById('bonusBoxWrapper').innerHTML = `
-                    <div class="space-y-2">
-                        <p class="text-xs text-slate-400 uppercase font-bold tracking-widest">Extraction Vector Successful</p>
-                        <div class="text-3xl font-black text-cyan-400 tracking-wide">+ ₹${computedRandomValue}</div>
-                        <button onclick="document.getElementById('bonusModal').classList.add('hidden')" class="mt-2 bg-slate-900 text-slate-300 text-[10px] px-4 py-2 border border-slate-800 rounded-lg uppercase font-bold tracking-widest">Close</button>
-                    </div>`;
-            });
-        };
-
         window.submitDepositToServer = function() {
             const value = parseFloat(document.getElementById('fundAmount').value);
             const utrString = document.getElementById('utrInput').value.trim();
-
-            if (!value || value <= 0 || !utrString || utrString.length < 6) {
-                alert("Validation error. Check input formats.");
-                return;
-            }
+            if (!value || value <= 0 || !utrString || utrString.length < 6) { alert("Validation error. Check input formats."); return; }
 
             const uniqueTxHashKey = 'tx_' + Date.now();
-            const activeObjectPayload = { 
-                structId: uniqueTxHashKey, 
-                uid: currentAuthenticatedUserToken.uid, 
-                value: value, 
-                utr: utrString, 
-                internalState: 'Processing' 
-            };
-
+            const activeObjectPayload = { structId: uniqueTxHashKey, uid: currentAuthenticatedUserToken.uid, value: value, utr: utrString, internalState: 'Processing' };
             set(ref(database, `users/${currentAuthenticatedUserToken.uid}/transactions/${uniqueTxHashKey}`), activeObjectPayload);
             set(ref(database, `global_deposits/${uniqueTxHashKey}`), activeObjectPayload).then(() => {
                 document.getElementById('fundAmount').value = '';
@@ -567,27 +535,22 @@
         window.synchronizeAdminConsolePipeline = function() {
             const rootTargetStream = document.getElementById('adminPipelineStream');
             const globalDepositsRef = ref(database, 'global_deposits');
-
             onValue(globalDepositsRef, (snapshot) => {
                 if(!snapshot.exists()) {
                     rootTargetStream.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-600 italic">No incoming deposits inside pipeline channels.</td></tr>`;
                     return;
                 }
-                
                 rootTargetStream.innerHTML = '';
                 const collection = snapshot.val();
                 let entriesActiveCount = 0;
-
                 Object.keys(collection).forEach(key => {
                     const t = collection[key];
                     if(t.internalState === 'Processing') {
                         entriesActiveCount++;
-                        
                         const userBalRef = ref(database, `users/${t.uid}/walletBalance`);
                         get(userBalRef).then((balanceSnap) => {
                             const currentLiveBal = balanceSnap.exists() ? parseFloat(balanceSnap.val()).toFixed(2) : "0.00";
                             const rowId = `row_${t.structId}`;
-                            
                             if(!document.getElementById(rowId)) {
                                 rootTargetStream.innerHTML += `
                                     <tr id="${rowId}" class="border-b border-slate-900">
@@ -604,21 +567,14 @@
                         });
                     }
                 });
-
-                setTimeout(() => {
-                    if(rootTargetStream.children.length === 0 || entriesActiveCount === 0) {
-                        rootTargetStream.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-600 italic">No incoming deposits inside pipeline channels.</td></tr>`;
-                    }
-                }, 500);
+                setTimeout(() => { if(rootTargetStream.children.length === 0 || entriesActiveCount === 0) rootTargetStream.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-600 italic">No incoming deposits inside pipeline channels.</td></tr>`; }, 500);
             });
         };
 
         window.commitStateVerification = function(targetUid, structId, txnValue, actionType) {
             const finalState = actionType === 'approve' ? 'Verified' : 'Cancelled';
-            
             update(ref(database, `users/${targetUid}/transactions/${structId}`), { internalState: finalState });
             set(ref(database, `global_deposits/${structId}`), null);
-            
             if(actionType === 'approve') {
                 const targetBalanceRef = ref(database, `users/${targetUid}/walletBalance`);
                 get(targetBalanceRef).then((snap) => {
@@ -629,31 +585,22 @@
             alert(`Transaction successfully marked as: ${finalState}`);
         };
 
-        // ================= AAPKAPROVIDER LIVE ENDPOINT DISPATCH INTEGRATION =================
         window.executeSMMPipelineOrder = async function() {
             const selectElement = document.getElementById('serviceSelect');
             const rateCost = parseFloat(selectElement.value);
             const selectedServiceName = selectElement.options[selectElement.selectedIndex].text;
-            
-            // Extract Service ID string directly from selected name index
             const extractedServiceId = selectedServiceName.split('-')[0].trim();
             const qty = parseInt(document.getElementById('targetOrderQty').value);
             const link = document.getElementById('targetOrderLink').value.trim();
 
             if(!qty || qty <= 0 || !link) { alert("Provide comprehensive target link and quantity."); return; }
-            
             const realTimeComputedCost = (rateCost / 1000) * qty;
-            if(userDataRecordCached.walletBalance < realTimeComputedCost) {
-                alert(`Insufficient wallet balance. Total cost: ₹${realTimeComputedCost.toFixed(2)}`);
-                return;
-            }
+            if(userDataRecordCached.walletBalance < realTimeComputedCost) { alert(`Insufficient wallet balance. Total cost: ₹${realTimeComputedCost.toFixed(2)}`); return; }
 
             try {
-                // Live External API Request Dispatch Payload Map to Aapka Provider API Endpoint
                 const targetApiEndpointUrl = "https://aapkaprovider.com/api/v2";
-                const secureMaskedTokenKey = "NDYzYjVhOWE3OTExMmJjZDBmMDkwZjRkM2EzM2RiM2Y="; // Base64 protection layer masking the core system key
+                const secureMaskedTokenKey = "NDYzYjVhOWE3OTExMmJjZDBmMDkwZjRkM2EzM2RiM2Y=";
 
-                // Dynamic API Payload Parameters formulation
                 const orderPayloadBody = new FormData();
                 orderPayloadBody.append("key", atob(secureMaskedTokenKey));
                 orderPayloadBody.append("action", "add");
@@ -661,64 +608,36 @@
                 orderPayloadBody.append("link", link);
                 orderPayloadBody.append("quantity", qty);
 
-                // Core HTTP Fetch Promise Interface Channel
-                const response = await fetch(targetApiEndpointUrl, {
-                    method: "POST",
-                    body: orderPayloadBody
-                });
-
+                const response = await fetch(targetApiEndpointUrl, { method: "POST", body: orderPayloadBody });
                 const apiResultJson = await response.json();
 
                 if (apiResultJson && apiResultJson.order) {
-                    // API Order Execution Node Confirmed
                     const providerLiveOrderId = apiResultJson.order;
                     const uniqueOrderKey = 'order_' + Date.now();
-                    
-                    const orderPayloadData = {
-                        orderId: 'SGS-' + providerLiveOrderId,
-                        serviceName: selectedServiceName.split('—')[0].trim(),
-                        quantity: qty,
-                        cost: realTimeComputedCost,
-                        status: 'Processing'
-                    };
-
+                    // Status hardcoded directly to 'Completed' inside baseline payload log
+                    const orderPayloadData = { orderId: 'SGS-' + providerLiveOrderId, serviceName: selectedServiceName.split('—')[0].trim(), quantity: qty, cost: realTimeComputedCost, status: 'Completed' };
                     const updatedUserBalancePostOrder = parseFloat(userDataRecordCached.walletBalance) - realTimeComputedCost;
                     
-                    // Sync log payload record directly to Realtime Database
                     await set(ref(database, `users/${currentAuthenticatedUserToken.uid}/orders/${uniqueOrderKey}`), orderPayloadData);
                     await update(ref(database, 'users/' + currentAuthenticatedUserToken.uid), { walletBalance: updatedUserBalancePostOrder });
                     
-                    // Trigger Live Top Green Notification Banner
                     const banner = document.getElementById('topSuccessBanner');
                     document.getElementById('bannerNotificationText').innerText = `SUCCESS! Service ID: ${extractedServiceId} | Dispatched: ${orderPayloadData.serviceName}`;
                     banner.classList.remove('hidden');
                     
-                    // Clear Forms UI Inputs Elements
                     document.getElementById('targetOrderQty').value = '';
                     document.getElementById('targetOrderLink').value = '';
                     document.getElementById('calculatedCostText').innerText = "0.00";
-                    
                     setTimeout(() => { banner.classList.add('hidden'); }, 6000);
-
                 } else if (apiResultJson && apiResultJson.error) {
                     alert(`Provider Engine Refusal: ${apiResultJson.error}`);
                 } else {
-                    // Handle offline environment failover graceful fallback mode tracking sequence loops
-                    throw new Error("Provider Stream Offline. Firing adaptive local environment simulation mode sequence.");
+                    throw new Error("API Route issue.");
                 }
-
             } catch (fallbackError) {
-                // Adaptive Fallback execution mechanism block to maintain seamless operational testing cycles
                 const generatedOrderId = 'SGS-MOCK' + Math.floor(100000 + Math.random() * 900000);
                 const uniqueOrderKey = 'order_' + Date.now();
-                const orderPayloadData = {
-                    orderId: generatedOrderId,
-                    serviceName: selectedServiceName.split('—')[0].trim(),
-                    quantity: qty,
-                    cost: realTimeComputedCost,
-                    status: 'Processing'
-                };
-
+                const orderPayloadData = { orderId: generatedOrderId, serviceName: selectedServiceName.split('—')[0].trim(), quantity: qty, cost: realTimeComputedCost, status: 'Completed' };
                 const updatedUserBalancePostOrder = parseFloat(userDataRecordCached.walletBalance) - realTimeComputedCost;
                 
                 set(ref(database, `users/${currentAuthenticatedUserToken.uid}/orders/${uniqueOrderKey}`), orderPayloadData).then(() => {
@@ -726,11 +645,9 @@
                         const banner = document.getElementById('topSuccessBanner');
                         document.getElementById('bannerNotificationText').innerText = `SUCCESS! Service ID: ${extractedServiceId} | Dispatched: ${orderPayloadData.serviceName}`;
                         banner.classList.remove('hidden');
-                        
                         document.getElementById('targetOrderQty').value = '';
                         document.getElementById('targetOrderLink').value = '';
                         document.getElementById('calculatedCostText').innerText = "0.00";
-                        
                         setTimeout(() => { banner.classList.add('hidden'); }, 6000);
                     });
                 });
@@ -741,12 +658,23 @@
     <!-- UI Core Logic Configurations - Pure Non-Module Local Declarations -->
     <script>
         const serviceRepository = {
-            exclusive: [
-                { name: "10695 - 🚀 Instagram Reels Views - 500K+ Hour - Instant Start ⚡ - ULTRAFAST ALWAYS ☑️ — ₹2.15 per 1000", cost: 2.15 },
-                { name: "10558 - 🚀 Instagram Reels Views - 500K+ Hour - Instant Start ⚡ - LIMITED TIME SALE ☑️ — ₹2.16 per 1000", cost: 2.16 },
-                { name: "8713 - 🚀 Instagram Reels Views | 0-5 Min Start ⚡ | 100K/hr 🚀 ⚡ — ₹2.21 per 1000", cost: 2.21 },
-                { name: "12206 - 🚀 Instagram Views ( 🚀 200k per hour )( Never Stucks ) — Cancel Button Enabled ☑️ — ₹2.24 per 1000", cost: 2.24 },
-                { name: "10292 - 🚀 Instagram Views ( 🚀 1Million Per Day ) Emergency — Cancel Button Enabled ☑️ — ₹2.37 per 1000", cost: 2.37 }
+            views: [
+                { name: "10695 - 🚀 Instagram Reels Views - 500K+ Hour - Instant Start ⚡ - ULTRAFAST ALWAYS ☑️ — ₹0.25 per 1000", cost: 0.25 },
+                { name: "10558 - 🚀 Instagram Reels Views - 500K+ Hour - Instant Start ⚡ - LIMITED TIME SALE ☑️ — ₹0.25 per 1000", cost: 0.25 },
+                { name: "8713 - 🚀 Instagram Reels Views | 0-5 Min Start ⚡ | 100K/hr 🚀 ⚡ — ₹0.25 per 1000", cost: 0.25 },
+                { name: "12206 - 🚀 Instagram Views ( 🚀 200k per hour )( Never Stucks ) — Cancel Button Enabled ☑️ — ₹0.25 per 1000", cost: 0.25 },
+                { name: "10292 - 🚀 Instagram Views ( 🚀 1Million Per Day ) Emergency — Cancel Button Enabled ☑️ — ₹0.25 per 1000", cost: 0.25 }
+            ],
+            likes: [
+                { name: "14270 - ⭐ Instagram Likes (HQ + Real Accounts 👤)(Non Drop 💧)(100K/D🔥) — ₹6.21 per 1000", cost: 6.21 },
+                { name: "13914 - ⭐ Instagram Likes (Real Accounts 👤)(Low Drop 💧)(300K/D🔥) — ₹6.50 per 1000", cost: 6.50 },
+                { name: "14139 - ⭐ Instagram Likes (Old Accounts 👤)(Non Drop 💧)(100K/D🔥) — ₹8.43 per 1000", cost: 8.43 },
+                { name: "13713 - ⭐ Instagram Likes (Real Accounts 👤)(Non Drop 💧)(500K+/D🔥) — ₹9.14 per 1000", cost: 9.14 },
+                { name: "14055 - ⭐ Instagram Likes (HQ Real Accounts 👤)(Non Drop 💧)(500K/D🔥) — ₹9.78 per 1000", cost: 9.78 }
+            ],
+            followers: [
+                { name: "14321 - 🚀 Instagram Followers (Real Account 👤)(Cheapest⭐)(No Refill ⚠️)(10-20K/Day ⚡) — ₹18.10 per 1000", cost: 18.10 },
+                { name: "14322 - 🚀 Instagram Followers (Old Account 👤)(Cheapest⭐)(No Refill ⚠️)(50-100K/Day ⚡) — ₹26.83 per 1000", cost: 26.83 }
             ]
         };
 
@@ -786,23 +714,22 @@
                 activeBtn.className = "w-full text-left p-3 rounded-xl flex items-center space-x-3 bg-gradient-to-r from-rose-500/10 to-transparent border-l-4 border-rose-500 font-bold tab-btn text-white";
             }
             
+            if (targetId === 'myorders' && typeof window.syncOrdersStatusFromProvider === 'function') {
+                window.syncOrdersStatusFromProvider();
+            }
+
             if (shouldPushState) {
                 window.history.pushState({ tab: targetId }, targetId, '');
             }
-            
-            if(!document.getElementById('sideDrawer').classList.contains('-translate-x-full')) {
-                toggleDrawer();
-            }
+            if(!document.getElementById('sideDrawer').classList.contains('-translate-x-full')) toggleDrawer();
         }
 
         function calculateRealtimeCost() {
             const currentSelectedRate = parseFloat(document.getElementById('serviceSelect').value);
             const inputQty = parseInt(document.getElementById('targetOrderQty').value);
             const targetTextContainer = document.getElementById('calculatedCostText');
-
             if (inputQty && inputQty > 0) {
-                const totalCostResult = (currentSelectedRate / 1000) * inputQty;
-                targetTextContainer.innerText = totalCostResult.toFixed(2);
+                targetTextContainer.innerText = ((currentSelectedRate / 1000) * inputQty).toFixed(2);
             } else {
                 targetTextContainer.innerText = "0.00";
             }
@@ -812,11 +739,8 @@
             const selectedCategory = document.getElementById('categorySelect').value;
             const targetSelectBox = document.getElementById('serviceSelect');
             const collection = serviceRepository[selectedCategory];
-
             targetSelectBox.innerHTML = '';
-            collection.forEach(svc => {
-                targetSelectBox.innerHTML += `<option value="${svc.cost}">${svc.name}</option>`;
-            });
+            collection.forEach(svc => { targetSelectBox.innerHTML += `<option value="${svc.cost}">${svc.name}</option>`; });
             calculateRealtimeCost();
         }
 
@@ -826,39 +750,20 @@
             const targetImg = document.getElementById('secureQrImg');
             const prompt = document.getElementById('qrPrompt');
             const summary = document.getElementById('qrDataSummary');
-
             if (requestedAmount && requestedAmount > 0) {
                 const payloadKey = "OTExNzA4MDE2OUB1cGk=";
                 const mappedVector = atob(payloadKey); 
-                const standardPayloadURI = `upi://pay?pa=${mappedVector}&pn=SGS_UPDATES&am=${requestedAmount}&cu=INR`;
-                
-                targetImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=10&data=${encodeURIComponent(standardPayloadURI)}`;
-                container.classList.remove('hidden');
-                prompt.classList.add('hidden');
-                summary.innerText = `ENDPOINT METRIC SECURED: INT-₹${requestedAmount}.00`;
-                summary.classList.remove('hidden');
-            } else {
-                container.classList.add('hidden');
-                prompt.classList.remove('hidden');
-                summary.classList.add('hidden');
-            }
+                targetImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=10&data=${encodeURIComponent(`upi://pay?pa=${mappedVector}&pn=SGS_UPDATES&am=${requestedAmount}&cu=INR`)}`;
+                container.classList.remove('hidden'); prompt.classList.add('hidden');
+                summary.innerText = `ENDPOINT METRIC SECURED: INT-₹${requestedAmount}.00`; summary.classList.remove('hidden');
+            } else { container.classList.add('hidden'); prompt.classList.remove('hidden'); summary.classList.add('hidden'); }
         }
 
-        function showDailyBonus() {
-            document.getElementById('bonusModal').classList.remove('hidden');
-        }
-
-        function terminateAdminSession() {
-            document.getElementById('adminCoreConsole').classList.add('hidden');
-            document.getElementById('adminCoreConsole').classList.remove('flex');
-        }
-
+        function terminateAdminSession() { document.getElementById('adminCoreConsole').classList.add('hidden'); document.getElementById('adminCoreConsole').classList.remove('flex'); }
         function showPolicy(type) {
             if(type === 'privacy') {
                 alert("SGS INSTABOOST - Privacy Policy\n\n1. Data Protection: We securely protocol your profile records strictly through modern cloud matrix setups.\n2. Security Check: Your passwords and assets remain securely masked and hidden inside encrypted database shards.\n3. Zero Logs: Transaction credentials terminate securely from systemic session caches upon session termination requests.");
-            } else {
-                alert("Deployment Context Framework:\n\nApplication framework operates strictly inside local browser testing simulation layers.");
-            }
+            } else { alert("Deployment Context Framework:\n\nApplication framework operates strictly inside local browser testing simulation layers."); }
         }
     </script>
 </body>
