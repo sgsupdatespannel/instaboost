@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGS Premium SMM Engine - Production Ready</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link class="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .neon-border { box-shadow: 0 0 15px rgba(244, 63, 94, 0.2); }
         .neon-text { text-shadow: 0 0 8px rgba(244, 63, 94, 0.4); }
@@ -16,11 +16,13 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased">
 
+    <!-- ================= LIVE GREEN TOP NOTIFICATION BANNER ================= -->
     <div id="topSuccessBanner" class="hidden bg-emerald-600 text-white font-bold text-xs sm:text-sm px-4 py-3 text-center sticky top-0 z-50 shadow-lg border-b border-emerald-500 flex items-center justify-center space-x-2 animate-fade-in">
         <i class="fa-solid fa-circle-check text-white animate-bounce"></i>
         <span id="bannerNotificationText">Pipeline Dispatched Successfully!</span>
     </div>
 
+    <!-- ================= AUTH CONTAINER (LOGIN/SIGNUP/FORGOT) ================= -->
     <div id="authContainer" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl w-full max-w-md shadow-2xl space-y-6">
             <div class="text-center">
@@ -30,6 +32,7 @@
                 <p id="authSubTitle" class="text-xs text-slate-400 mt-2">Live Secure Firebase Gateway Network</p>
             </div>
 
+            <!-- Login Form -->
             <div id="loginForm" class="space-y-4">
                 <div>
                     <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Email Address</label>
@@ -60,6 +63,7 @@
                 <p class="text-xs text-center text-slate-400 mt-4">New to SGS? <span onclick="toggleAuthMode('signup')" class="text-rose-500 font-bold cursor-pointer hover:underline">Create Account</span></p>
             </div>
 
+            <!-- Signup Form -->
             <div id="signupForm" class="space-y-4 hidden">
                 <div>
                     <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Email Identity</label>
@@ -75,6 +79,7 @@
                 <p class="text-xs text-center text-slate-400">Already verified? <span onclick="toggleAuthMode('login')" class="text-amber-500 font-bold cursor-pointer hover:underline">Log In</span></p>
             </div>
 
+            <!-- Forgot Password Window -->
             <div id="forgotForm" class="space-y-4 hidden">
                 <div>
                     <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Recovery Email Target</label>
@@ -88,7 +93,9 @@
         </div>
     </div>
 
+    <!-- ================= MAIN APPLICATION OVERLAY ================= -->
     <div id="appContainer" class="hidden flex-col min-h-screen">
+        <!-- Top Navigation Bar -->
         <header class="glass sticky top-0 z-40 border-b border-slate-800 px-4 py-3 flex justify-between items-center shadow-2xl">
             <div class="flex items-center space-x-3">
                 <button onclick="toggleDrawer()" class="text-xl text-rose-500 p-2 hover:bg-slate-800 rounded-lg transition">
@@ -106,6 +113,7 @@
             </div>
         </header>
 
+        <!-- Side Drawer Component -->
         <div id="sideDrawer" class="fixed inset-y-0 left-0 w-72 bg-slate-900 border-r border-slate-800 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
             <div class="p-5 border-b border-slate-800 bg-slate-950/60 flex items-center space-x-3">
                 <img id="drawerUserLogo" src="https://api.dicebear.com/7.x/bottts/svg?seed=SGS" class="w-12 h-12 rounded-2xl bg-slate-800 p-1 border border-rose-500/30 shadow-md animate-pulse" alt="User Vector">
@@ -130,6 +138,7 @@
                     <i class="fa-solid fa-gift text-amber-400"></i><span>Refer & Earn (₹5)</span>
                 </button>
                 
+                <!-- Dynamic Admin Switch Panel Link -->
                 <button id="drawerAdminLink" onclick="launchAdminConsole()" class="w-full text-left p-3 rounded-xl flex items-center space-x-3 hover:bg-purple-500/10 text-purple-400 font-bold hidden border border-transparent hover:border-purple-500/20">
                     <i class="fa-solid fa-user-shield text-purple-500"></i><span>Open Admin Console</span>
                 </button>
@@ -145,8 +154,10 @@
         </div>
         <div id="drawerOverlay" onclick="toggleDrawer()" class="fixed inset-0 bg-black/60 z-40 hidden backdrop-blur-sm"></div>
 
+        <!-- Main Content Area Router -->
         <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6">
             
+            <!-- Tab 1: Dashboard / New Order System -->
             <section id="tab-dashboard" class="space-y-6 tab-content">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="md:col-span-2 bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl space-y-4">
@@ -166,7 +177,8 @@
                         <div>
                             <label class="block text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">2. Choose service package</label>
                             <select id="serviceSelect" onchange="calculateRealtimeCost()" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-semibold text-slate-300">
-                                </select>
+                                <!-- Injected dynamically -->
+                            </select>
                         </div>
 
                         <div>
@@ -201,6 +213,7 @@
                 </div>
             </section>
 
+            <!-- ================= TAB 2: MY ORDERS HISTORY SCREEN ================= -->
             <section id="tab-myorders" class="space-y-6 tab-content hidden">
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-xl">
                     <div class="flex justify-between items-center mb-4">
@@ -226,6 +239,7 @@
                 </div>
             </section>
 
+            <!-- Tab 3: Add Funds -->
             <section id="tab-addfunds" class="space-y-6 tab-content hidden">
                 <div class="grid cols-1 md:grid-cols-3 gap-6">
                     <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl space-y-4">
@@ -269,6 +283,7 @@
                 </div>
             </section>
 
+            <!-- Tab 4: Refer & Earn -->
             <section id="tab-refer" class="tab-content hidden max-w-xl mx-auto">
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl text-center space-y-4">
                     <div class="w-16 h-16 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto text-2xl border border-amber-500/20">
@@ -287,6 +302,7 @@
         </main>
     </div>
 
+    <!-- Administrative Terminal Core Dashboard -->
     <div id="adminCoreConsole" class="fixed inset-0 bg-slate-950 hidden flex-col z-50">
         <header class="bg-slate-900 border-b border-purple-900/40 p-4 flex justify-between items-center shadow-md">
             <span class="font-black text-purple-400 text-sm tracking-wider"><i class="fa-solid fa-terminal mr-2"></i>SGS ADMIN KERNEL PIPELINE</span>
@@ -313,6 +329,7 @@
         </div>
     </div>
 
+    <!-- Firebase System Ecosystem Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
@@ -638,6 +655,7 @@
         };
     </script>
 
+    <!-- UI Core Logic Configurations - Pure Non-Module Local Declarations -->
     <script>
         const serviceRepository = {
             views: [
@@ -733,7 +751,7 @@
             const prompt = document.getElementById('qrPrompt');
             const summary = document.getElementById('qrDataSummary');
             if (requestedAmount && requestedAmount > 0) {
-                const payloadKey = "OTExNzA4MDE2OUBqaW8=";
+                const payloadKey = "cy5rdW1hci4yMzcyQHN1cGVyeWVz";
                 const mappedVector = atob(payloadKey); 
                 targetImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=10&data=${encodeURIComponent(`upi://pay?pa=${mappedVector}&pn=SGS_UPDATES&am=${requestedAmount}&cu=INR`)}`;
                 container.classList.remove('hidden'); prompt.classList.add('hidden');
