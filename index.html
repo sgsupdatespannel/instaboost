@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGS Premium SMM Engine - Production Ready</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link class="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .neon-border { box-shadow: 0 0 15px rgba(244, 63, 94, 0.2); }
         .neon-text { text-shadow: 0 0 8px rgba(244, 63, 94, 0.4); }
@@ -16,13 +16,11 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased">
 
-    <!-- ================= LIVE GREEN TOP NOTIFICATION BANNER ================= -->
     <div id="topSuccessBanner" class="hidden bg-emerald-600 text-white font-bold text-xs sm:text-sm px-4 py-3 text-center sticky top-0 z-50 shadow-lg border-b border-emerald-500 flex items-center justify-center space-x-2 animate-fade-in">
         <i class="fa-solid fa-circle-check text-white animate-bounce"></i>
         <span id="bannerNotificationText">Pipeline Dispatched Successfully!</span>
     </div>
 
-    <!-- ================= AUTH CONTAINER (LOGIN/SIGNUP/FORGOT) ================= -->
     <div id="authContainer" class="fixed inset-0 bg-slate-950 z-50 flex items-center justify-center p-4">
         <div class="bg-slate-900 border border-slate-800 p-8 rounded-3xl w-full max-w-md shadow-2xl space-y-6">
             <div class="text-center">
@@ -32,7 +30,6 @@
                 <p id="authSubTitle" class="text-xs text-slate-400 mt-2">Live Secure Firebase Gateway Network</p>
             </div>
 
-            <!-- Login Form -->
             <div id="loginForm" class="space-y-4">
                 <div>
                     <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Email Address</label>
@@ -63,7 +60,6 @@
                 <p class="text-xs text-center text-slate-400 mt-4">New to SGS? <span onclick="toggleAuthMode('signup')" class="text-rose-500 font-bold cursor-pointer hover:underline">Create Account</span></p>
             </div>
 
-            <!-- Signup Form -->
             <div id="signupForm" class="space-y-4 hidden">
                 <div>
                     <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Email Identity</label>
@@ -79,7 +75,6 @@
                 <p class="text-xs text-center text-slate-400">Already verified? <span onclick="toggleAuthMode('login')" class="text-amber-500 font-bold cursor-pointer hover:underline">Log In</span></p>
             </div>
 
-            <!-- Forgot Password Window -->
             <div id="forgotForm" class="space-y-4 hidden">
                 <div>
                     <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Recovery Email Target</label>
@@ -93,13 +88,11 @@
         </div>
     </div>
 
-    <!-- ================= MAIN APPLICATION OVERLAY ================= -->
     <div id="appContainer" class="hidden flex-col min-h-screen">
-        <!-- Top Navigation Bar -->
         <header class="glass sticky top-0 z-40 border-b border-slate-800 px-4 py-3 flex justify-between items-center shadow-2xl">
             <div class="flex items-center space-x-3">
-                <button onclick="toggleDrawer()" class="text-xl text-rose-500 p-2 hover:bg-slate-800 rounded-lg transition">
-                    <i class="fa-solid fa-bars-staggered"></i>
+                <button onclick="toggleDrawer()" class="text-xl text-rose-500 p-1 bg-transparent border-none transition">
+                    <i class="fa-solid fa-bars text-rose-500"></i>
                 </button>
                 <span class="text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500 neon-text">
                     SGS INSTABOOST
@@ -113,15 +106,14 @@
             </div>
         </header>
 
-        <!-- Side Drawer Component -->
-        <div id="sideDrawer" class="fixed inset-y-0 left-0 w-72 bg-slate-900 border-r border-slate-800 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <div id="sideDrawer" class="fixed inset-y-0 left-0 w-72 bg-slate-900 border-r border-rose-500/40 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col shadow-[5px_0_25px_rgba(244,63,94,0.15)]">
             <div class="p-5 border-b border-slate-800 bg-slate-950/60 flex items-center space-x-3">
                 <img id="drawerUserLogo" src="https://api.dicebear.com/7.x/bottts/svg?seed=SGS" class="w-12 h-12 rounded-2xl bg-slate-800 p-1 border border-rose-500/30 shadow-md animate-pulse" alt="User Vector">
                 <div class="overflow-hidden flex-1">
                     <p class="text-xs uppercase font-black text-rose-500 tracking-wider">Active Instance</p>
                     <p id="drawerUserIdentity" class="text-xs text-slate-300 font-mono truncate">Loading Profile Token...</p>
                 </div>
-                <button onclick="toggleDrawer()" class="text-slate-500 hover:text-rose-500 text-sm"><i class="fa-solid fa-xmark"></i></button>
+                <button onclick="toggleDrawer()" class="text-rose-400 hover:text-rose-500 text-sm bg-rose-500/10 p-1.5 rounded-md border border-rose-500/20"><i class="fa-solid fa-xmark"></i></button>
             </div>
             
             <div class="p-4 flex-1 space-y-2 overflow-y-auto">
@@ -138,7 +130,6 @@
                     <i class="fa-solid fa-gift text-amber-400"></i><span>Refer & Earn (₹5)</span>
                 </button>
                 
-                <!-- Dynamic Admin Switch Panel Link -->
                 <button id="drawerAdminLink" onclick="launchAdminConsole()" class="w-full text-left p-3 rounded-xl flex items-center space-x-3 hover:bg-purple-500/10 text-purple-400 font-bold hidden border border-transparent hover:border-purple-500/20">
                     <i class="fa-solid fa-user-shield text-purple-500"></i><span>Open Admin Console</span>
                 </button>
@@ -154,10 +145,8 @@
         </div>
         <div id="drawerOverlay" onclick="toggleDrawer()" class="fixed inset-0 bg-black/60 z-40 hidden backdrop-blur-sm"></div>
 
-        <!-- Main Content Area Router -->
         <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6">
             
-            <!-- Tab 1: Dashboard / New Order System -->
             <section id="tab-dashboard" class="space-y-6 tab-content">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="md:col-span-2 bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl space-y-4">
@@ -177,8 +166,7 @@
                         <div>
                             <label class="block text-xs uppercase font-bold tracking-wider text-slate-400 mb-2">2. Choose service package</label>
                             <select id="serviceSelect" onchange="calculateRealtimeCost()" class="w-full bg-slate-950 p-3.5 rounded-xl border border-slate-800 focus:outline-none focus:border-rose-500 text-sm font-semibold text-slate-300">
-                                <!-- Injected dynamically -->
-                            </select>
+                                </select>
                         </div>
 
                         <div>
@@ -213,7 +201,6 @@
                 </div>
             </section>
 
-            <!-- ================= TAB 2: MY ORDERS HISTORY SCREEN ================= -->
             <section id="tab-myorders" class="space-y-6 tab-content hidden">
                 <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl shadow-xl">
                     <div class="flex justify-between items-center mb-4">
@@ -239,7 +226,6 @@
                 </div>
             </section>
 
-            <!-- Tab 3: Add Funds -->
             <section id="tab-addfunds" class="space-y-6 tab-content hidden">
                 <div class="grid cols-1 md:grid-cols-3 gap-6">
                     <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl space-y-4">
@@ -283,7 +269,6 @@
                 </div>
             </section>
 
-            <!-- Tab 4: Refer & Earn -->
             <section id="tab-refer" class="tab-content hidden max-w-xl mx-auto">
                 <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl text-center space-y-4">
                     <div class="w-16 h-16 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center mx-auto text-2xl border border-amber-500/20">
@@ -302,7 +287,6 @@
         </main>
     </div>
 
-    <!-- Administrative Terminal Core Dashboard -->
     <div id="adminCoreConsole" class="fixed inset-0 bg-slate-950 hidden flex-col z-50">
         <header class="bg-slate-900 border-b border-purple-900/40 p-4 flex justify-between items-center shadow-md">
             <span class="font-black text-purple-400 text-sm tracking-wider"><i class="fa-solid fa-terminal mr-2"></i>SGS ADMIN KERNEL PIPELINE</span>
@@ -329,7 +313,6 @@
         </div>
     </div>
 
-    <!-- Firebase System Ecosystem Integration -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
@@ -655,15 +638,14 @@
         };
     </script>
 
-    <!-- UI Core Logic Configurations - Pure Non-Module Local Declarations -->
     <script>
         const serviceRepository = {
             views: [
                 { name: "10695 - 🚀 Instagram Reels Views - 500K+ Hour - Instant Start ⚡ - ULTRAFAST ALWAYS ☑️ — ₹0.25 per 1000", cost: 0.25 },
-                { name: "10558 - 🚀 Instagram Reels Views - 500K+ Hour - Instant Start ⚡ - LIMITED TIME SALE ☑️ — ₹0.25 per 1000", cost: 0.25 },
-                { name: "8713 - 🚀 Instagram Reels Views | 0-5 Min Start ⚡ | 100K/hr 🚀 ⚡ — ₹0.25 per 1000", cost: 0.25 },
-                { name: "12206 - 🚀 Instagram Views ( 🚀 200k per hour )( Never Stucks ) — Cancel Button Enabled ☑️ — ₹0.25 per 1000", cost: 0.25 },
-                { name: "10292 - 🚀 Instagram Views ( 🚀 1Million Per Day ) Emergency — Cancel Button Enabled ☑️ — ₹0.25 per 1000", cost: 0.25 }
+                { name: "10558 - 🚀 Instagram Reels Views - 500K+ Hour - Instant Start ⚡ - LIMITED TIME SALE ☑️ — ₹0.35 per 1000", cost: 0.35 },
+                { name: "8713 - 🚀 Instagram Reels Views | 0-5 Min Start ⚡ | 100K/hr 🚀 ⚡ — ₹0.45 per 1000", cost: 0.45 },
+                { name: "12206 - 🚀 Instagram Views ( 🚀 200k per hour )( Never Stucks ) — Cancel Button Enabled ☑️ — ₹0.65 per 1000", cost: 0.65 },
+                { name: "10292 - 🚀 Instagram Views ( 🚀 1Million Per Day ) Emergency — Cancel Button Enabled ☑️ — ₹0.85 per 1000", cost: 0.85 }
             ],
             likes: [
                 { name: "14270 - ⭐ Instagram Likes (HQ + Real Accounts 👤)(Non Drop 💧)(100K/D🔥) — ₹6.21 per 1000", cost: 6.21 },
