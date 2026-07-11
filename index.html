@@ -835,6 +835,36 @@
                 broadcastBox.style.display = 'none';
             }
         }, 50);
+
+
+// ================= PLACEHOLDER DYNAMIC LOGIC BLOCK =================
+window.updateServices = function() {
+    const selectedCategory = document.getElementById('categorySelect').value;
+    const targetSelectBox = document.getElementById('serviceSelect');
+    const linkInput = document.getElementById('targetOrderLink'); // Link box ko target kiya
+
+    // Category ke hisab se placeholder automatic change hoga
+    if (selectedCategory.includes('youtube') || selectedCategory.includes('yt_') || selectedCategory === 'subscriber') {
+        linkInput.placeholder = "📺 https://www.youtube.com/watch?v=... ya Shorts Link";
+    } else if (selectedCategory.includes('facebook') || selectedCategory.includes('fb_')) {
+        linkInput.placeholder = "👥 https://www.facebook.com/profile.php?... ya Post Link";
+    } else {
+        // Instagram ya baaki default ke liye
+        linkInput.placeholder = "📸 https://www.instagram.com/reel/... ya Profile Link";
+    }
+
+    const collection = serviceRepository[selectedCategory];
+    targetSelectBox.innerHTML = '';
+    
+    // Safety check taaki error na aaye
+    if (collection) {
+        collection.forEach(svc => { targetSelectBox.innerHTML += `<option value="${svc.cost}">${svc.name}</option>`; });
+    }
+    
+    calculateRealtimeCost();
+};
+// ===================================================================
+
         
     </script>
 </body>
