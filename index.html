@@ -143,6 +143,11 @@
 
 
 
+                <button onclick="showSecurityInfo()" class="w-full text-left p-3 rounded-xl flex items-center space-x-3 hover:bg-slate-800/60 text-slate-400 font-medium tab-btn">
+    <i class="fa-solid fa-shield-halved text-emerald-500"></i><span>Security & Privacy</span>
+                </button>
+                
+
 
                 
 
@@ -874,6 +879,16 @@ window.updateServices = function() {
     calculateRealtimeCost();
 };
 // ===================================================================
+
+
+
+
+window.showSecurityInfo = function() {
+    alert("Privacy & Security Commitment:\n\nWe prioritize your data security. Your authentication is handled securely via Firebase. Our system ensures that:\n\n1. Your sensitive transaction details (UTR) and wallet balance remain private.\n2. We do not store or track your passwords or personal account data.\n3. Our administration team has no access to your private financial logs.\n\nYour data is fully encrypted and used strictly for secure authentication purposes only.");
+};
+        
+
+
 
         
     </script>
